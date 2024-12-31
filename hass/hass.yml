@@ -1,0 +1,21 @@
+services:
+    hass:
+        container_name: hass
+        image: "ghcr.io/home-assistant/home-assistant:2024.12.5"
+        user: "1003:1003"
+
+#        ports:
+#          - 8123:8123
+        volumes:
+          - /opt/hass/data:/config
+          - /etc/localtime:/etc/localtime:ro
+          - /run/dbus:/run/dbus:ro
+        stdin_open: true    # docker run -i
+        tty: true           # docker run -t
+        networks:
+          - proxy_net
+        restart: unless-stopped
+networks:
+  proxy_net:
+    name: proxy_net
+    external: true
