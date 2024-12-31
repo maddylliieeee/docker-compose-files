@@ -6,8 +6,8 @@ services:
     stdin_open: true
     security_opt:
       - no-new-privileges:true
-    # ports:
-      # - 9443:9443
+    ports:
+      - 9443:9443
     volumes:
       - /opt/portainer/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
