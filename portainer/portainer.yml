@@ -1,0 +1,22 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:2.21.4
+    container_name: portainer
+    tty: true
+    stdin_open: true
+    security_opt:
+      - no-new-privileges:true
+        # ports:
+      # - 9443:9443
+    volumes:
+      - /opt/portainer/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy_net
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Paris
+networks:
+  proxy_net:
+    name: proxy_net
+    external: true
