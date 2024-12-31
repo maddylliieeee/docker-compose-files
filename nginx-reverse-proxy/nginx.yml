@@ -1,0 +1,21 @@
+services:
+  nginx:
+    image: nginx:latest
+    #user: '1002:1002'
+    container_name: nginx
+    security_opt:
+      - no-new-privileges:true
+    ports:
+
+      - 443:443
+    volumes:
+      - /opt/nginx/data:/etc/nginx
+      - /opt/nginx/data/log:/var/log/nginx
+    networks:
+      - proxy_net
+    restart: unless-stopped
+
+networks:
+  proxy_net:
+    name: proxy_net
+    external: true
