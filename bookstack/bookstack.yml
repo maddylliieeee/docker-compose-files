@@ -1,0 +1,56 @@
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    container_name: bookstack-app
+#    user: "1004:1004"
+    environment:
+      - PUID=1004
+      - PGID=1004
+      - TZ=Europe/Berlin
+      - APP_URL=https://bookstack.fritz.box
+      - APP_KEY=${BOOKSTACK_APP_KEY}
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=${BOOKSTACK_DB_PW}
+      - DB_DATABASE=bookstack
+      #- QUEUE_CONNECTION= database
+    volumes:
+      - /opt/bookstack/data/app:/config
+#    ports:
+#      - 6875:80
+    networks:
+      - proxy_net
+      - bookstack_net
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+  
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: bookstack-db
+#    user: "1004:1004"
+    environment:
+      - PUID=1004
+      - PGID=1004
+      - TZ=Europe/Berlin
+      - MYSQL_ROOT_PASSWORD=${ROOT_ACCESS_PASSWORD}
+      - MYSQL_DATABASE=${USER_DB_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${BOOKSTACK_DB_PW}
+#      - REMOTE_SQL=http://URL1/your.sql,https://URL2/your.sql #optional
+    volumes:
+      - /opt/bookstack/data/db:/config
+#    ports:
+#      - 3306:3306
+    networks:
+      - bookstack_net
+    restart: unless-stopped
+
+networks:
+  bookstack_net:
+    name: bookstack_net
+    external: true
+  proxy_net:
+    name: proxy_net
+    external: true
