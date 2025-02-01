@@ -1,0 +1,30 @@
+services:
+    vikunja:
+        image: vikunja/vikunja:0.24.6
+        container_name: vikunja
+        user: "1006:1006"
+        environment:
+            VIKUNJA_SERVICE_JWTSECRET: ${VIKUNJA_JWT_SECRET}
+            VIKUNJA_SERVICE_PUBLICURL: http://vikunja.fritz.box
+            VIKUNJA_DATABASE_TYPE: sqlite
+            # Note the default path is /app/vikunja/vikunja.db.
+            # This config variable moves it to a different folder so you can use a volume and 
+            # store the database file outside the container so state is persisted even if the container is destroyed.
+            VIKUNJA_DATABASE_PATH: /db/vikunja.db
+        ports:
+            - 3456:3456
+        volumes:
+            - /opt/vikunja/data/files:/app/vikunja/files
+            - /opt/vikunja/data/db:/db
+        networks:
+            - proxy_net
+            - vikunja_net
+        restart: unless-stopped
+
+networks:
+  vikunja_net:
+    name: vikunja_net
+    external: true
+  proxy_net:
+    name: proxy_net
+    external: true
