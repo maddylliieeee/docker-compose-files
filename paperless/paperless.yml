@@ -34,7 +34,7 @@ services:
   broker:
     container_name: paperless-broker
     image: docker.io/library/redis:7
-#    user: "1007:1007"
+    user: "1007:1007"
     restart: unless-stopped
     networks:
         - paperless_net
@@ -44,7 +44,7 @@ services:
   webserver:
     container_name: paperless-webserver
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
-    user: "1007:1007"
+ #   user: "1007:1007"
     restart: unless-stopped
     depends_on:
         - broker
