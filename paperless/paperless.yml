@@ -44,7 +44,7 @@ services:
   webserver:
     container_name: paperless-webserver
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
- #   user: "1007:1007"
+    user: "1007:1007"
     restart: unless-stopped
     depends_on:
         - broker
