@@ -60,7 +60,7 @@ services:
         - /opt/paperless/data/webserver/media:/usr/src/paperless/media
         - /opt/paperless/data/webserver/export:/usr/src/paperless/export
         - /opt/paperless/data/webserver/consume:/usr/src/paperless/consume
-    env_file: docker-compose.env
+    env_file: stack.env
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_TIKA_ENABLED: 1
