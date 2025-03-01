@@ -59,7 +59,7 @@ services:
         - /opt/paperless/data/webserver/data:/usr/src/paperless/data
         - /opt/paperless/data/webserver/media:/usr/src/paperless/media
         - /opt/paperless/data/webserver/export:/usr/src/paperless/export
-        - /opt/paperless/data/webserver/consume:/usr/src/paperless/consume
+        - /mnt/paperless-in:/usr/src/paperless/consume
     env_file: stack.env
     environment:
       PAPERLESS_REDIS: redis://broker:6379
