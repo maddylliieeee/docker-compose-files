@@ -1,0 +1,30 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.33.2
+    container_name: vaultwarden
+    user: '1008:1008'
+    restart: unless-stopped
+    networks:
+      - proxy_net
+#    ports:
+#      - 8000:80
+    volumes:
+      - /opt/vaultwarden/data/:/data/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - ADMIN_TOKEN=${VAULTWARDEN_ADMIN_TOKEN}
+      - DOMAIN=https://vw.fritz.box
+      - SIGNUPS_ALLOWED=false
+      - SMTP_HOST=smtp.mailbox.org
+      - SMTP_FROM=vaultwarden@mariusheinrich.de
+      - SMTP_PORT=465
+      - SMTP_SECURITY=force_tls
+      - SMTP_USERNAME=mail@mariusheinrich.de
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - LOG_FILE=/data/vaultwarden.log
+
+networks:
+  proxy_net:
+    name: proxy_net
+    external: true
