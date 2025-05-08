@@ -1,0 +1,13 @@
+services:
+  donetick:
+    image: donetick/donetick:v0.1.43
+    container_name: donetick
+    restart: unless-stopped
+    ports:
+      - 2021:2021
+    volumes:
+      - /opt/donetick/data/donetick-data:/donetick-data
+      - /opt/donetick/data/config:/config
+    environment:
+      - DT_ENV=selfhosted
+      - DT_SQLITE_PATH=/donetick-data/donetick.db
