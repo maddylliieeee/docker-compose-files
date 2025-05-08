@@ -18,7 +18,7 @@ services:
         - donetick_net
 
 networks:
-  vikunja_net:
+  donetick_net:
     name: donetick_net
     external: true
   proxy_net:
