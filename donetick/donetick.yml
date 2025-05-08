@@ -9,10 +9,7 @@ services:
     volumes:
       - /opt/donetick/data/donetick-data:/donetick-data
       - /opt/donetick/data/config:/config
-    environment:
-      - DT_ENV=selfhosted
-      - DT_SQLITE_PATH=/donetick-data/donetick.db
-
+    env_file: stack.env
     networks:
         - proxy_net
         - donetick_net
