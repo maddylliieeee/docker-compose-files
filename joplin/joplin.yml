@@ -18,6 +18,7 @@
 services:
     db:
         image: postgres:16
+        container_name: joplin-db
         volumes:
             - /opt/joplin/data/postgres:/var/lib/postgresql/data
         ports:
@@ -31,6 +32,7 @@ services:
             - joplin_net
     app:
         image: joplin/server:latest
+        container_name: joplin-app
         depends_on:
             - db
         ports:
