@@ -7,6 +7,7 @@ services:
       - PUID=1004
       - PGID=1004
       - TZ=Europe/Berlin
+      - SESSION_LIFETIME=0
       - APP_URL=https://bookstack.fritz.box
       - APP_KEY=${BOOKSTACK_APP_KEY}
       - DB_HOST=mariadb
