@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
     environment:
       TZ: Europe/Paris
+      TRUSTED_ORIGINS: portainer.fritz.box
 networks:
   proxy_net:
     name: proxy_net
