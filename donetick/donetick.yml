@@ -1,6 +1,6 @@
 services:
   donetick:
-    image: donetick/donetick:v0.1.43
+    image: donetick/donetick:v0.1.53
     container_name: donetick
     user: "1011:1011"
     restart: unless-stopped
