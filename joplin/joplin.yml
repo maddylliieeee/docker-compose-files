@@ -33,7 +33,6 @@ services:
     app:
         image: joplin/server:3.4.1
         container_name: joplin-app
-        user: "1012:1012"
         depends_on:
             - db
         ports:
