@@ -134,5 +134,5 @@ networks:
     name: seafile-net
     external: true
   proxy_net:
-    name: proxy_net
+    name: proxy-net
     external: true
