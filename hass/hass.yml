@@ -1,7 +1,7 @@
 services:
     hass:
         container_name: hass
-        image: "ghcr.io/home-assistant/home-assistant:2025.7.4"
+        image: "ghcr.io/home-assistant/home-assistant:2025.10.1"
         user: "1003:1003"
 
 #        ports:
