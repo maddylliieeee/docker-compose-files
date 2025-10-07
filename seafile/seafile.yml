@@ -10,7 +10,7 @@ services:
     volumes:
       - "${SEAFILE_MYSQL_VOLUME:-/opt/seafile-mysql/db}:/var/lib/mysql"
     networks:
-      - seafile-net
+      - seafile_net
     healthcheck:
       test:
         [
@@ -31,7 +31,7 @@ services:
     restart: unless-stopped
     entrypoint: memcached -m 256
     networks:
-      - seafile-net
+      - seafile_net
 
   seafile:
     image: ${SEAFILE_IMAGE:-seafileltd/seafile-mc:12.0-latest}
@@ -70,7 +70,7 @@ services:
       memcached:
         condition: service_started
     networks:
-      - seafile-net
+      - seafile_net
 
   seadoc:
     image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:1.0-latest}
@@ -105,7 +105,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - seafile-net
+      - seafile_net
 
   caddy:
       image: ${SEAFILE_CADDY_IMAGE:-lucaslorentz/caddy-docker-proxy:2.9-alpine}
@@ -131,8 +131,8 @@ services:
 
 networks:
   seafile-net:
-    name: seafile-net
+    name: seafile_net
     external: true
   proxy_net:
-    name: proxy-net
+    name: proxy_net
     external: true
