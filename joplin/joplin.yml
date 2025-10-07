@@ -31,7 +31,7 @@ services:
         networks:
             - joplin_net
     app:
-        image: joplin/server:3.4.1
+        image: joplin/server:3.4.4
         container_name: joplin-app
         depends_on:
             - db
