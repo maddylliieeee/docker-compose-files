@@ -130,7 +130,7 @@ services:
         retries: 3
 
 networks:
-  seafile-net:
+  seafile_net:
     name: seafile_net
     external: true
   proxy_net:
