@@ -113,7 +113,7 @@ caddy:
     restart: unless-stopped
     ports:
       - 80:80
-      - 443:443
+#      - 443:443
     environment:
       - CADDY_INGRESS_NETWORKS=seafile-net
     volumes:
@@ -121,6 +121,7 @@ caddy:
       - ${SEAFILE_CADDY_VOLUME:-/opt/seafile-caddy}:/data/caddy
     networks:
       - seafile-net
+      - proxy-net
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:2019/metrics || exit 1"]
       start_period: 20s
@@ -131,3 +132,7 @@ caddy:
 networks:
   seafile-net:
     name: seafile-net
+    external: true
+  proxy_net:
+    name: proxy_net
+    external: true
