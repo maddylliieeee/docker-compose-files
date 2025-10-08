@@ -79,7 +79,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${SEADOC_VOLUME:-/opt/seadoc-data/}:/shared
-    ports:
+#    ports:
 #       - "80:80"
     environment:
       - DB_HOST=${SEAFILE_MYSQL_DB_HOST:-db}
