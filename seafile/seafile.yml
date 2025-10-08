@@ -37,8 +37,8 @@ services:
     image: ${SEAFILE_IMAGE:-seafileltd/seafile-mc:12.0-latest}
     container_name: seafile
     restart: unless-stopped
-    # ports:
-    #   - "80:80"
+    ports:
+      - "80:80"
     volumes:
       - ${SEAFILE_VOLUME:-/opt/seafile-data}:/shared
     environment:
@@ -71,7 +71,8 @@ services:
         condition: service_started
     networks:
       - seafile_net
-
+      - proxy_net
+  
   seadoc:
     image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:1.0-latest}
     container_name: seadoc
@@ -79,7 +80,7 @@ services:
     volumes:
       - ${SEADOC_VOLUME:-/opt/seadoc-data/}:/shared
     ports:
-       - "80:80"
+#       - "80:80"
     environment:
       - DB_HOST=${SEAFILE_MYSQL_DB_HOST:-db}
       - DB_PORT=${SEAFILE_MYSQL_DB_PORT:-3306}
@@ -106,7 +107,6 @@ services:
         condition: service_healthy
     networks:
       - seafile_net
-      - proxy_net
 
 #  caddy:
 #      image: ${SEAFILE_CADDY_IMAGE:-lucaslorentz/caddy-docker-proxy:2.9-alpine}
