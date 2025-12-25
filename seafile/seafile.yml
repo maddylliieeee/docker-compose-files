@@ -25,16 +25,21 @@ services:
       timeout: 5s
       retries: 10
 
-  memcached:
-    image: ${SEAFILE_MEMCACHED_IMAGE:-memcached:1.6.29}
-    container_name: seafile-memcached
+  redis:
+    image: ${SEAFILE_REDIS_IMAGE:-redis}
+    container_name: seafile-redis
     restart: unless-stopped
-    entrypoint: memcached -m 256
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "$$REDIS_PASSWORD"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
     networks:
       - seafile_net
 
   seafile:
-    image: ${SEAFILE_IMAGE:-seafileltd/seafile-mc:12.0-latest}
+    image: ${SEAFILE_IMAGE:-seafileltd/seafile-mc:13.0-latest}
     container_name: seafile
     restart: unless-stopped
     ports:
@@ -61,20 +66,28 @@ services:
       - SEAFILE_LOG_TO_STDOUT=${SEAFILE_LOG_TO_STDOUT:-false}
       - ENABLE_SEADOC=${ENABLE_SEADOC:-true}
       - SEADOC_SERVER_URL=${SEAFILE_SERVER_PROTOCOL:-http}://${SEAFILE_SERVER_HOSTNAME:?Variable is not set or empty}/sdoc-server
-#    labels:
-#      caddy: ${SEAFILE_SERVER_PROTOCOL:-http}://${SEAFILE_SERVER_HOSTNAME:?Variable is not set or empty}
-#      caddy.reverse_proxy: "{{upstreams 80}}"
+      - CACHE_PROVIDER=${CACHE_PROVIDER:-redis}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - ENABLE_NOTIFICATION_SERVER=${ENABLE_NOTIFICATION_SERVER:-false}
+      - INNER_NOTIFICATION_SERVER_URL=${INNER_NOTIFICATION_SERVER_URL:-http://notification-server:8083}
+      - NOTIFICATION_SERVER_URL=${NOTIFICATION_SERVER_URL:-${SEAFILE_SERVER_PROTOCOL:-http}://${SEAFILE_SERVER_HOSTNAME:?Variable is not set or empty}/notification}
+      - ENABLE_SEAFILE_AI=${ENABLE_SEAFILE_AI:-false}
+      - SEAFILE_AI_SERVER_URL=${SEAFILE_AI_SERVER_URL:-http://seafile-ai:8888}
+      - SEAFILE_AI_SECRET_KEY=${JWT_PRIVATE_KEY:?Variable is not set or empty}
+      - MD_FILE_COUNT_LIMIT=${MD_FILE_COUNT_LIMIT:-100000}
     depends_on:
       db:
         condition: service_healthy
-      memcached:
+      redis:
         condition: service_started
     networks:
       - seafile_net
       - proxy_net
   
   seadoc:
-    image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:1.0-latest}
+    image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:2.0-latest}
     container_name: seadoc
     restart: unless-stopped
     volumes:
@@ -91,43 +104,11 @@ services:
       - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY:?Variable is not set or empty}
       - NON_ROOT=${NON_ROOT:-false}
       - SEAHUB_SERVICE_URL=${SEAFILE_SERVICE_URL:-http://seafile}
-#   labels:
-#      caddy: ${SEAFILE_SERVER_PROTOCOL:-http}://${SEAFILE_SERVER_HOSTNAME:?Variable is not set or empty}
-#      caddy.@ws.0_header: "Connection *Upgrade*"
-#      caddy.@ws.1_header: "Upgrade websocket"
-#      caddy.0_reverse_proxy: "@ws {{upstreams 80}}"
-#      caddy.1_handle_path: "/socket.io/*"
-#      caddy.1_handle_path.0_rewrite: "* /socket.io{uri}"
-#      caddy.1_handle_path.1_reverse_proxy: "{{upstreams 80}}"
-#      caddy.2_handle_path: "/sdoc-server/*"
-#      caddy.2_handle_path.0_rewrite: "* {uri}"
-#      caddy.2_handle_path.1_reverse_proxy: "{{upstreams 80}}"
     depends_on:
       db:
         condition: service_healthy
     networks:
       - seafile_net
-
-#  caddy:
-#      image: ${SEAFILE_CADDY_IMAGE:-lucaslorentz/caddy-docker-proxy:2.9-alpine}
-#      container_name: seafile-caddy
-#      restart: unless-stopped
-#      ports:
-#        - 80:80
-  #      - 443:443
-#      environment:
-#        - CADDY_INGRESS_NETWORKS=seafile_net
-#      volumes:
-#        - /var/run/docker.sock:/var/run/docker.sock
-#        - ${SEAFILE_CADDY_VOLUME:-/opt/seafile-caddy}:/data/caddy
-#      networks:
-#        - seafile_net
-#        - proxy_net
-#      healthcheck:
-#        test: ["CMD-SHELL", "curl --fail http://localhost:2019/metrics || exit 1"]
-#        start_period: 20s
-#        interval: 20s
-#        timeout: 5s
 #        retries: 3
 
 networks:
