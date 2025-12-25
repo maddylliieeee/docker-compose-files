@@ -110,7 +110,7 @@ services:
     networks:
       - seafile_net
 
-notification-server:
+  notification-server:
     image: ${NOTIFICATION_SERVER_IMAGE:-seafileltd/notification-server:13.0-latest}
     container_name: notification-server
     restart: always
