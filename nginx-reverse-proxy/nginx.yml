@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:1.29.0
+    image: nginx:1.29.4
     #user: '1002:1002'
     container_name: nginx
     security_opt:
