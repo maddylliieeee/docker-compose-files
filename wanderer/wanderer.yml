@@ -2,6 +2,7 @@ version: '3'
 
 services:
   search:
+    container_name: wanderer-search
     image: getmeili/meilisearch:v1.11.3
     environment:
       MEILI_URL: http://search:7700
@@ -19,6 +20,7 @@ services:
     networks:
       - wanderer_net
   db:
+    container_name: wanderer-db
     image: flomp/wanderer-db
     depends_on:
       search:
@@ -40,6 +42,7 @@ services:
     networks:
       - wanderer_net
   web:
+    container_name: wanderer-web
     image: flomp/wanderer-web
     depends_on:
       search:
