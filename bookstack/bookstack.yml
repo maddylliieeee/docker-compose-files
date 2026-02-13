@@ -1,6 +1,6 @@
 services:
   bookstack:
-    image: lscr.io/linuxserver/bookstack:version-v25.12
+    image: lscr.io/linuxserver/bookstack:version-v25.12.3-ls243
     container_name: bookstack-app
 #    user: "1004:1004"
     environment:
