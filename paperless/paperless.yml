@@ -43,7 +43,7 @@ services:
 
   webserver:
     container_name: paperless-webserver
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.20.5
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.20.6
 #    user: "1007:1007"
     restart: unless-stopped
     depends_on:
