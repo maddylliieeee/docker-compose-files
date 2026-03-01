@@ -52,7 +52,7 @@ services:
     command: bash -c 'tail -F /unifi/log/*.log'
     restart: always
     volumes:
-      - /opt/unifi/log/data:/unifi/log
+      - /opt/unifi/controller/log:/unifi/log
 
 networks:
   unifi_net:
