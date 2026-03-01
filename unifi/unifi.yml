@@ -10,7 +10,7 @@ services:
       - /opt/unifi/mongo/config:/data/configdb
   
   controller:
-    image: "jacobalberty/unifi:${TAG:-latest}"
+    image: jacobalberty/unifi:v10.0.162
     container_name: unifi_controller
     depends_on:
       - mongo
