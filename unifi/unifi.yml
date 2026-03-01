@@ -25,7 +25,7 @@ services:
       - /opt/unifi/controller/log:/unifi/log
       - /opt/unifi/controller/cert:/unifi/cert
       - /opt/unifi/controller/init:/unifi/init.d
-      - run:/var/run/unifi
+      - /opt/unifi/controller/run:/var/run/unifi
       # Mount local folder for backups and autobackups
       # - ./backup:/unifi/data/backup
     user: unifi
