@@ -1,7 +1,7 @@
 services:
   db:
     image: ${SEAFILE_DB_IMAGE:-mariadb:10.11}
-    container_name: seafile-mysql
+    container_name: seafile2-mysql
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=${INIT_SEAFILE_MYSQL_ROOT_PASSWORD:-}
@@ -27,7 +27,7 @@ services:
 
   redis:
     image: ${SEAFILE_REDIS_IMAGE:-redis}
-    container_name: seafile-redis
+    container_name: seafile2-redis
     restart: unless-stopped
     command:
       - /bin/sh
@@ -41,7 +41,7 @@ services:
 
   seafile:
     image: ${SEAFILE_IMAGE:-seafileltd/seafile-mc:13.0-latest}
-    container_name: seafile
+    container_name: seafile2
     restart: unless-stopped
     ports:
       - "80:80"
@@ -99,7 +99,7 @@ services:
   
   seadoc:
     image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:1.0-latest}
-    container_name: seadoc
+    container_name: seadoc2
     restart: unless-stopped
     volumes:
       - ${SEADOC_VOLUME:-/opt/seadoc-data/}:/shared
