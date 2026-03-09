@@ -43,7 +43,7 @@ services:
     image: ${SEAFILE_IMAGE:-seafileltd/seafile-mc:13.0-latest}
     container_name: seafile2
     restart: unless-stopped
-    ports:
+#    ports:
 #      - "80:80"
     volumes:
       - ${SEAFILE_VOLUME:-/opt/seafile-data}:/shared
