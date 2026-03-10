@@ -98,7 +98,7 @@ services:
       - proxy_net
   
   seadoc:
-    image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:1.0-latest}
+    image: ${SEADOC_IMAGE:-seafileltd/sdoc-server:2.0-latest}
     container_name: seadoc
     restart: unless-stopped
     volumes:
