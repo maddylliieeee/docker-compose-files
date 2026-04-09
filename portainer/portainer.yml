@@ -1,6 +1,6 @@
 services:
   portainer:
-    image: portainer/portainer-ce:2.33.3
+    image: portainer/portainer-ce:2.39.1
     container_name: portainer
     tty: true
     stdin_open: true
